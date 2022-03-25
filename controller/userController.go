@@ -1,22 +1,21 @@
 package controller
 
 import (
+	"REST-api/config"
 	"REST-api/models"
 	"net/http"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
-	"gorm.io/gorm"
 )
 
 var(
-	db *gorm.DB
 	users []models.User
 )
 
 // get all users
 func GetUsersController(c echo.Context) error {
-	if err := db.Find(&users).Error; err != nil {
+	if err := config.DbUser.Find(&users).Error; err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
@@ -45,7 +44,7 @@ func GetUserController(c echo.Context) error{
 func CreateUserController(c echo.Context) error{
 	user := models.User{}
 	c.Bind(&user)
-	if err := db.Save(&user).Error; err != nil{
+	if err := config.DbUser.Save(&user).Error; err != nil{
 		return echo.NewHTTPError(http.StatusBadRequest,err.Error())
 	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
@@ -61,7 +60,7 @@ func DeleteUserController(c echo.Context) error{
 	for index, user := range users{
 		if user.ID == ID{
 			users = append(users[:index], users[index+1:]...)
-			if err := db.Delete(&user).Error; err != nil{
+			if err := config.DbUser.Delete(&user).Error; err != nil{
 				return echo.NewHTTPError(http.StatusBadRequest,err.Error())
 			}
 			return c.JSON(http.StatusOK, map[string]interface{}{
@@ -83,7 +82,7 @@ func UpdateUserController(c echo.Context) error{
 		if user.ID == ID{
 			c.Bind(&user)
 			users[index] = user
-			if err := db.Save(&user).Error; err != nil{
+			if err := config.DbUser.Save(&user).Error; err != nil{
 				return echo.NewHTTPError(http.StatusBadRequest,err.Error())
 			}
 			return c.JSON(http.StatusOK, map[string]interface{}{

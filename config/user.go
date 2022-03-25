@@ -8,31 +8,31 @@ import (
 	"gorm.io/gorm"
 )
 
-var DB *gorm.DB
+var DbUser *gorm.DB
 
 func InitDBUser(){
 	config := map[string]string{
-		"DB_Username" : "root",
-		"DB_Password" : "Sautmanurung234",
-		"DB_Port" : "3306",
-		"DB_Host" : "127.0.0.1",
-		"DB_Name" : "user",
+		"DbUser_Username" : "root",
+		"DbUser_Password" : "Sautmanurung234",
+		"DbUser_Port" : "3306",
+		"DbUser_Host" : "127.0.0.1",
+		"DbUser_Name" : "user",
 	}
 	connectionString := 
 	fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
-	config["DB_Username"],
-	config["DB_Password"],
-	config["DB_Host"],
-	config["DB_Port"],
-	config["DB_Name"])
+	config["DbUser_Username"],
+	config["DbUser_Password"],
+	config["DbUser_Host"],
+	config["DbUser_Port"],
+	config["DbUser_Name"])
 	var e error
-	DB, e = gorm.Open(mysql.Open(connectionString), &gorm.Config{})
+	DbUser, e = gorm.Open(mysql.Open(connectionString), &gorm.Config{})
 	if e != nil{
-		panic(e)
+		panic(e.Error())
 	}
-	InitMigrate()
+	initmigrate()
 }
 
-func InitMigrate(){
-	DB.AutoMigrate(&models.User{})
+func initmigrate(){
+	DbUser.AutoMigrate(&models.User{})
 }

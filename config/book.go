@@ -8,29 +8,30 @@ import (
 	"gorm.io/gorm"
 )
 
+var DbBook *gorm.DB
 func InitDBBook(){
 	config := map[string]string{
-		"DB_Username" : "root",
-		"DB_Password" : "Sautmanurung234",
-		"DB_Port" : "3306",
-		"DB_Host" : "127.0.0.1",
-		"DB_Name" : "books",
+		"DbBook_Username" : "root",
+		"DbBook_Password" : "Sautmanurung234",
+		"DbBook_Port" : "3306",
+		"DbBook_Host" : "127.0.0.1",
+		"DbBook_Name" : "books",
 	}
 	connectionString := 
 	fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
-	config["DB_Username"],
-	config["DB_Password"],
-	config["DB_Host"],
-	config["DB_Port"],
-	config["DB_Name"])
+	config["DbBook_Username"],
+	config["DbBook_Password"],
+	config["DbBook_Host"],
+	config["DbBook_Port"],
+	config["DbBook_Name"])
 	var e error
-	DB, e = gorm.Open(mysql.Open(connectionString), &gorm.Config{})
+	DbBook, e = gorm.Open(mysql.Open(connectionString), &gorm.Config{})
 	if e != nil{
-		panic(e)
+		panic(e.Error())
 	}
-	InitMigrate()
+	initMigrate()
 }
 
 func initMigrate(){
-	DB.AutoMigrate(&models.Book{})
+	DbBook.AutoMigrate(&models.Book{})
 }
