@@ -1,22 +1,38 @@
 package routes
 
 import (
-	"REST-api/controller"
+	"REST-api/constant"
+	c "REST-api/controller"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func New() *echo.Echo{
 	e := echo.New()
-	e.GET("/users", controller.GetUsersController)
-	e.POST("/users", controller.CreateUserController)
-	e.DELETE("/users/:id", controller.DeleteUserController)
-	e.PUT("/users/:id", controller.UpdateUserController)
+	e.GET("/users", c.GetUsersController)
+	e.POST("/users", c.CreateUserController)
+	e.DELETE("/users/:id", c.DeleteUserController)
+	e.PUT("/users/:id", c.UpdateUserController)
 
 	// Route Books
-	e.GET("/books", controller.GetBooksController)
-	e.POST("/books", controller.CreateBooksController)
-	e.DELETE("/books/:id", controller.DeleteBooksController)
-	e.PUT("/books/:id", controller.UpdateBooksController)
+	e.GET("/books", c.GetBooksController)
+	e.POST("/books", c.CreateBooksController)
+	e.DELETE("/books/:id", c.DeleteBooksController)
+	e.PUT("/books/:id", c.UpdateBooksController)
+
+	// JWT
+	jwtAuth := e.Group("/redirected")
+	jwtAuth.Use(middleware.JWT([]byte(constant.SECRET_JWT)))
+
+	// Route with JWT Auth
+	jwtAuth.GET("/users", c.GetUsersController)
+	jwtAuth.GET("/users/:id", c.GetUserController)
+	jwtAuth.DELETE("/users/:id", c.DeleteUserController)
+	jwtAuth.PUT("/users/:id", c.UpdateUserController)
+
+	jwtAuth.POST("/books", c.CreateBooksController)
+	jwtAuth.DELETE("/books/:id", c.DeleteBooksController)
+	jwtAuth.PUT("/books/:id", c.UpdateBooksController)
 	return e
 }
