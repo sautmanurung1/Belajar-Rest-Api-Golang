@@ -44,9 +44,11 @@ func GetUserController(c echo.Context) error{
 func CreateUserController(c echo.Context) error{
 	user := models.User{}
 	c.Bind(&user)
+
 	if err := config.DbUser.Save(&user).Error; err != nil{
 		return echo.NewHTTPError(http.StatusBadRequest,err.Error())
 	}
+
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message" : "Success Create New User",
 		"User" : user,

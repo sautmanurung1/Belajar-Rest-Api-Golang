@@ -27,9 +27,9 @@ func LoginController(c echo.Context) error{
 			"message" : "Error Create Token",
 		})
 	}
-	
+	u := uint16(user.ID)
 	responseData := models.Auth{}
-	responseData.ID = user.Id
+	responseData.ID = uint(u)
 	responseData.Name = user.Name
 	responseData.Email = user.Email
 	responseData.Token = token
@@ -37,6 +37,5 @@ func LoginController(c echo.Context) error{
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message" : "Success Login",
 		"Respone Data" : responseData,
-		"Token" : token,
 	})
 }
