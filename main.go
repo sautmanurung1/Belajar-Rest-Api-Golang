@@ -6,8 +6,7 @@ import (
 )
 
 func main() {
-	config.InitDBBook()
-	config.InitDBUser()
+	config.Connect()
 
 	e := routes.New()
 	e.Logger.Fatal(e.Start(":1234"))

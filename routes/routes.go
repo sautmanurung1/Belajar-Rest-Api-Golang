@@ -27,8 +27,8 @@ func New() *echo.Echo{
 	jwtAuth.DELETE("/users/:id", c.DeleteUserController)
 	jwtAuth.PUT("/users/:id", c.UpdateUserController)
 
-	jwtAuth.POST("/books", c.CreateBooksController)
-	jwtAuth.DELETE("/books/:id", c.DeleteBooksController)
-	jwtAuth.PUT("/books/:id", c.UpdateBooksController)
+	jwtAuth.POST("/books", c.CreateBookController)
+	jwtAuth.DELETE("/books/:id", c.DeleteBookController)
+	jwtAuth.PUT("/books/:id", c.UpdateBookController)
 	return e
 }
