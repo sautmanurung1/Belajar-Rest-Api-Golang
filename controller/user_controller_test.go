@@ -143,14 +143,14 @@ func TestGetUsersController(t *testing.T) {
 	}{
 		{
 			name:       "get all users normal",
-			path:       "/restricted/users",
+			path:       "/jwt/redirected/users",
 			expectCode: http.StatusOK,
 			dataSize:   len(users) + 1, // + 1 ketambahan user buat login
 		},
 	}
 
 	e := echo.New()
-	req := httptest.NewRequest(http.MethodGet, "/restricted/users", nil)
+	req := httptest.NewRequest(http.MethodGet, "/jwt/redirected/users", nil)
 	req.Header.Set("Authorization", token)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
@@ -192,14 +192,14 @@ func TestGetUserController(t *testing.T) {
 	}{
 		{
 			name:       "get user normal",
-			path:       "/restricted/users",
+			path:       "/jwt/redirected/users",
 			user_id:    strconv.Itoa(int(user.ID)),
 			expectCode: http.StatusOK,
 		},
 	}
 
 	e := echo.New()
-	req := httptest.NewRequest(http.MethodGet, "/restricted/users", nil)
+	req := httptest.NewRequest(http.MethodGet, "/jwt/redirected/users", nil)
 	req.Header.Set("Authorization", token)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
@@ -245,7 +245,7 @@ func TestUpdateUserController(t *testing.T) {
 	}{
 		{
 			name:       "update user normal",
-			path:       "/restricted/users",
+			path:       "/jwt/redirected/users",
 			user_id:    strconv.Itoa(int(user.ID)),
 			expectCode: http.StatusOK,
 		},
@@ -259,7 +259,7 @@ func TestUpdateUserController(t *testing.T) {
 	reqBodyJSON, _ := json.Marshal(reqBody)
 
 	e := echo.New()
-	req := httptest.NewRequest(http.MethodPut, "/restricted/users", bytes.NewReader(reqBodyJSON))
+	req := httptest.NewRequest(http.MethodPut, "/jwt/redirected/users", bytes.NewReader(reqBodyJSON))
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", token)
 	rec := httptest.NewRecorder()
@@ -306,14 +306,14 @@ func TestDeleteUserController(t *testing.T) {
 	}{
 		{
 			name:       "delete user normal",
-			path:       "/restricted/users",
+			path:       "/jwt/redirected/users",
 			user_id:    strconv.Itoa(int(user.ID)),
 			expectCode: http.StatusOK,
 		},
 	}
 
 	e := echo.New()
-	req := httptest.NewRequest(http.MethodDelete, "/restricted/users", nil)
+	req := httptest.NewRequest(http.MethodDelete, "/jwt/redirected/users", nil)
 	req.Header.Set("Authorization", token)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)

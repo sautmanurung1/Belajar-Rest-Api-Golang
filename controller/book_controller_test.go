@@ -46,7 +46,7 @@ func TestCreateBookController(t *testing.T) {
 	}{
 		{
 			name:       "create book normal",
-			path:       "/restricted/books",
+			path:       "/jwt/redirected/books",
 			expectCode: http.StatusOK,
 		},
 	}
@@ -214,7 +214,7 @@ func TestUpdateBookController(t *testing.T) {
 	}{
 		{
 			name:       "update book normal",
-			path:       "/restricted/books",
+			path:       "/jwt/redirected/books",
 			book_id:    strconv.Itoa(int(book.ID)),
 			expectCode: http.StatusOK,
 		},
@@ -228,7 +228,7 @@ func TestUpdateBookController(t *testing.T) {
 	reqBodyJSON, _ := json.Marshal(reqBody)
 
 	e := echo.New()
-	req := httptest.NewRequest(http.MethodPut, "/restricted/books", bytes.NewReader(reqBodyJSON))
+	req := httptest.NewRequest(http.MethodPut, "/jwt/redirected/books", bytes.NewReader(reqBodyJSON))
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", token)
 	rec := httptest.NewRecorder()
@@ -276,14 +276,14 @@ func TestDeleteBookController(t *testing.T) {
 	}{
 		{
 			name:       "delete book normal",
-			path:       "/restricted/books",
+			path:       "/jwt/redirected/books",
 			book_id:    strconv.Itoa(int(book.ID)),
 			expectCode: http.StatusOK,
 		},
 	}
 
 	e := echo.New()
-	req := httptest.NewRequest(http.MethodDelete, "/restricted/books", nil)
+	req := httptest.NewRequest(http.MethodDelete, "/jwt/redirected/books", nil)
 	req.Header.Set("Authorization", token)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
